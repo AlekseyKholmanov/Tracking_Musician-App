@@ -3,6 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -13,6 +18,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY",apikeyProperties['API_KEY'])
     }
     buildTypes {
         debug {
@@ -30,15 +36,13 @@ android {
     }
 }
 
-ext {
-    sdk_version = "28.0.0"
-    retrofit_version = "2.4.0"
-    okhttp_version = "3.10.0"
-    dagger_version = "2.16"
-    glide = "4.11.0"
-    roomVersion = "2.2.4"
-    nav_version = "2.2.1"
-}
+def retrofit_version = "2.4.0"
+def okhttp_version = "3.10.0"
+def dagger_version = "2.16"
+def glide = "4.11.0"
+def roomVersion = "2.2.4"
+def nav_version = "2.2.1"
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar']) // material
@@ -89,7 +93,7 @@ dependencies {
 
     //Glide
     implementation "com.github.bumptech.glide:glide:$glide"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
 
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -97,7 +101,6 @@ dependencies {
 
     // Utils
     implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation "com.github.bumptech.glide:glide:$glide"
 
     // tests
     testImplementation 'junit:junit:4.12'
