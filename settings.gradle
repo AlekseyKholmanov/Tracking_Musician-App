@@ -1,2 +1,3 @@
 include ':app'
 rootProject.name='Tracking_Musician_App'
+enableFeaturePreview("GRADLE_METADATA")
